@@ -4,7 +4,54 @@
 
 template<typename T>
 class TPQueue {
-  // реализация шаблона очереди с приоритетом на связанном списке
+ private:
+    struct Node {
+        T data;
+        Node* next;
+    };
+    Node* head;
+ public:
+    TPQueue() {
+        head = nullptr;
+    }
+    ~TPQueue() {
+        while (head != nullptr) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+    void push(T value) {
+        Node* newNode = new Node;
+        newNode->data = value;
+        newNode->next = nullptr;
+        if (head == nullptr) {
+            head = newNode;
+            return;
+        }
+        if (value.prior > head->data.prior) {
+            newNode->next = head;
+            head = newNode;
+            return;
+        }
+        Node* cur = head;
+        while (cur->next != nullptr &&
+               cur->next->data.prior >= value.prior) {
+            cur = cur->next;
+        }
+        newNode->next = cur->next;
+        cur->next = newNode;
+    }
+    T pop() {
+        Node* temp = head;
+        T value = head->data;
+        head = head->next;
+        delete temp;
+        return value;
+    }
+    bool empty() {
+        return head == nullptr;
+    }
 };
 
 struct SYM {
