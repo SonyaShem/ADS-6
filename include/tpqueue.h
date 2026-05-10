@@ -10,6 +10,7 @@ class TPQueue {
         Node* next;
     };
     Node* head;
+
  public:
     TPQueue() {
         head = nullptr;
